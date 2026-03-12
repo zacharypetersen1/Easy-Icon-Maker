@@ -28,6 +28,10 @@ namespace EasyIconMaker
             RenderTexture oldTexture = captureCamera.targetTexture;
             RenderTexture targetTexture = RenderTexture.GetTemporary(size, size, 16, RenderTextureFormat.ARGB32);
 
+            RenderTexture tempActive = RenderTexture.active;
+            RenderTexture.active = targetTexture;
+            GL.Clear(true, true, Color.clear);
+
             if (texBG != null)
                 Graphics.Blit(texBG, targetTexture);
 
@@ -35,9 +39,6 @@ namespace EasyIconMaker
             captureCamera.targetTexture = targetTexture;
             captureCamera.forceIntoRenderTexture = true;
             captureCamera.Render();
-
-            RenderTexture tempActive = RenderTexture.active;
-            RenderTexture.active = targetTexture;
 
             Rect rect = new Rect(0, 0, size, size);
             texture.ReadPixels(rect, 0, 0);
